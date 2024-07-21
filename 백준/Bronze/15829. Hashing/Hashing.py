@@ -16,4 +16,4 @@ for i in lst:
     result += a * (31 ** cnt)
     cnt += 1
 
-print(result)
+print(result % 1234567891)
