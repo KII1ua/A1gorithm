@@ -1,34 +1,45 @@
-# baekjoon 1012
+# baekjoon 1072
 import sys
-sys.setrecursionlimit(10 ** 6)
+from collections import deque
 input = sys.stdin.readline
 
-def dfs(y, x):
-    if x < 0 or y < 0 or x >= N or y >= M:      # 현재 좌표가 인덱스 범위 에 있는지
-        return False
-    if graph[y][x] == 1:            # 배추가 있을 경우
-        graph[y][x] = 0             # 0으로 만들어 방문체크
-        dfs(y-1, x)     # 상
-        dfs(y+1, x)     # 하
-        dfs(y, x-1)     # 좌
-        dfs(y, x+1)     # 우
-        return True
-    return False
+
+def bfs(a, b):
+    q = deque()
+    q.append((a, b))
+    graph[a][b] = 0         # 방문처리 0으로 만듬
+
+    while q:
+        x, y = q.popleft()
+
+        for _ in range(4):
+            nx = x + dx[_]          
+            ny = y + dy[_]
+
+            if nx < 0 or ny < 0 or nx >= M or ny >= N:
+                continue
+            if graph[nx][ny] == 1:
+                q.append((nx, ny))
+                graph[nx][ny] = 0
 
 T = int(input())
 
+dx = [-1, 1, 0 , 0]
+dy = [0, 0, -1, 1]
+
 for _ in range(T):
-    M, N, K = map(int, input().split())
+    M, N, K = map(int, input().split())     # 세로, 가로, 배추개수
     graph = [[0] * N for _ in range(M)]
     total = 0
 
     for a in range(K):
-        y, x = map(int ,input().split())
-        graph[y][x] = 1
+        x, y = map(int ,input().split())    # 세로, 가로
+        graph[x][y] = 1
 
     for i in range(M):
         for j in range(N):
-            if dfs(i, j) == True:
+            if graph[i][j] == 1:
+                bfs(i, j)
                 total += 1
-
+    
     print(total)
