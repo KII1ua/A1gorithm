@@ -1,16 +1,15 @@
-# baekjoon 17626
 import sys
 input = sys.stdin.readline
 
 N = int(input())
 dp = [0, 1]
 
-for _ in range(2, N+1):
-    i = 1
-    mini = 4
-    while i * i <= _:
-        mini = min(mini, dp[_ - i * i])
-        i += 1
-    dp.append(mini + 1)
+for i in range(2, N + 1):
+    j = 1
+    min_ = 5
+    while j * j <= i:
+        min_ = min(min_, dp[i - j * j])
+        j += 1
+    dp.append(min_ + 1)
 
 print(dp[N])
