@@ -5,19 +5,18 @@ input = sys.stdin.readline
 N = int(input())
 M = int(input())
 S = input().rstrip()
-result = ''
-cnt = 0
 
-for i in range((N + 1) + N):
-    if i % 2 == 0:
-        tmp = 'I'
+idx, result, cnt = 0, 0, 0      # 문자 위치, OI 횟수, 개수
+
+while idx < (M - 1):
+    if S[idx: idx+3] == 'IOI':
+        idx += 2
+        result += 1
+        if result == N:
+            result -= 1
+            cnt += 1
     else:
-        tmp = 'O'
-    for j in range(1):
-        result += tmp
-    
-for i in range(len(S)):
-    if S[i:i+len(result)] == result:
-        cnt += 1
+        idx += 1
+        result = 0
 
 print(cnt)
