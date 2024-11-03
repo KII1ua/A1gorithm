@@ -10,8 +10,5 @@ result = [[] * M for _ in range(N)]
 for i in range(N):
     for j in range(M):
         result[i].append(arr[i][j] + arr1[i][j])
-    
-for i in range(N):
-    for j in range(M):
         print(result[i][j], end = ' ')
     print()
