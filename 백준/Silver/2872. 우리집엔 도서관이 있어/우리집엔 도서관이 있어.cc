@@ -1,4 +1,4 @@
-// baekjoon 28706
+// baekjoon 24228
 #include <bits/stdc++.h>
 using namespace std;
 typedef pair<int, int> pii;
@@ -14,25 +14,27 @@ int main() {
     ios::sync_with_stdio(0);
     cin.tie(0), cout.tie(0);
 
-    int N, tmp, idx, res, count;
+    int N, idx, res;
 
     cin >> N;
-    count = N-1;
+    res = N;
 
     for(int i = 0; i < N; i++) {
-        cin >> tmp;
-        v.push_back(tmp);
-        if(v[i] == N) {
+        int a;
+        cin >> a;
+        v.push_back(a);
+
+        if(a == N) {
             idx = i;
-            res = N;
         }
     }
 
-    for(int j = idx-1; j >= 0; j--) {
-        if(v[j] == res-1) {
+    for(int j = idx; j >= 0; j--) {
+        if(v[j] == N) {
+            N--;
             res--;
-            count--;
         }
     }
-    cout << count;
+
+    cout << res;
 }
