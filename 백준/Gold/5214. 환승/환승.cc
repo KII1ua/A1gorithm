@@ -1,4 +1,4 @@
-// baekjoon 2206
+// baekjoon 17835
 #include <bits/stdc++.h>
 using namespace std;
 typedef pair<int, int> pii;
@@ -6,8 +6,8 @@ typedef long long ll;
 #define endl "\n"
 #define INF int(1e9)
 
-int dx[4] = {-1, 1, 0, 0};
-int dy[4] = {0, 0, -1 ,1};
+int dx[8] = {-1, 1, 0, 0, -1, -1, 1, 1};
+int dy[8] = {0, 0, -1, 1, -1, 1, -1, 1};
 int N, K, M;
 int result;
 bool visited[1001];
@@ -17,7 +17,7 @@ vector<vector<int>> v2(1001);       // 하이퍼튜브 - 역
 int bfs(int x) {
     queue<pii> q;
 
-    q.push(make_pair(x, 0));
+    q.push(make_pair(x, 1));
 
     while(!q.empty()) {
         int xx = q.front().first;       // 현재 있는 역
@@ -57,11 +57,11 @@ int main() {
     }
 
     result = bfs(1);
-    
+
     if(result == -1) {
         cout << result;
         return 0;
     }
 
-    cout << result+1;
+    cout << result;
 }
