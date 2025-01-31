@@ -10,23 +10,23 @@ int dx[8] = {-1, 1, 0, 0, -1, -1, 1, 1};
 int dy[8] = {0, 0, -1, 1, -1, 1, -1, 1};
 int N, M;
 vector<int> v;
-int arr[9];
+int result[9];
 bool visited[9];
 
 void bt(int x) {
     if(x == M) {
-        for(int i = 0; i < M; i++) {
-            cout << arr[i] << " ";
+        for(int j = 0; j < M; j++) {
+            cout << result[j] << " ";
         }
         cout << endl;
         return;
     }
 
-    for(int i = 0; i < N; i++) {
+    for(int i = 1; i <= N; i++) {
         if(!visited[i]) {
             visited[i] = true;
-            arr[x] = v[i];
-            bt(x + 1);
+            result[x] = v[i];
+            bt(x+1);
             visited[i] = false;
         }
     }
@@ -38,7 +38,9 @@ int main() {
 
     cin >> N >> M;
 
-    for(int i = 0 ; i < N; i++) {
+    v.push_back(0);
+
+    for(int i = 0; i < N; i++) {
         int a;
         cin >> a;
         v.push_back(a);
