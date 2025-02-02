@@ -21,10 +21,10 @@ bool compare(score a, score b) {
     if(a.kor == b.kor && a.eng == b.eng && a.math == b.math) {
         return a.name < b.name;
     }
-    else if(a.kor == b.kor && a.eng == b.eng) {
+    else if(a.kor == b.kor && a.eng == b.eng && a.math != b.math) {
         return a.math > b.math;
     }
-    else if(a.kor == b.kor) {
+    else if(a.kor == b.kor && a.eng != b.eng) {
         return a.eng < b.eng;
     }
     else {
