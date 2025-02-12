@@ -8,7 +8,7 @@ typedef long long ll;
 
 int dx[9] = {-1, 1, 0, 0, -1, -1, 1, 1, 0};
 int dy[9] = {0, 0, -1, 1, -1, 1, -1, 1, 0};
-char graph[10000][10000];
+char graph[3072][6149];
 int N;
 
 void draw(int x, int y, int n) {
