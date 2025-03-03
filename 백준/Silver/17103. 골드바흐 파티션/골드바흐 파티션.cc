@@ -30,7 +30,7 @@ void solve() {
 
         int count = 0;
         for(int j = a-1; j >= 2; j--) {
-            if(!prime[a-j] && !prime[j] && j <= a - j) {
+            if(!prime[a-j] && !prime[j] && j >= a - j) {
                 count++;
             }
         }
