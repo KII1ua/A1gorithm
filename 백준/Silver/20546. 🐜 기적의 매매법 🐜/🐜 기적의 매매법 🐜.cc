@@ -10,49 +10,60 @@ int N;
 int arr[16];
 
 void solve() {
-    int bnp_cash = N, timing_cash = N;
-    int bnp_stock = 0, timing_stock = 0;
+    int ans1, ans2 = 0;
+    ans1 = N;
+    ans2 = N;
+    int cnt1 = 0, cnt2 = 0;
 
-    for (int i = 1; i <= 14; i++) {
-        if (bnp_cash >= arr[i]) {
-            int buy = bnp_cash / arr[i];
-            bnp_stock += buy;
-            bnp_cash -= buy * arr[i];
+    for(int i = 1; i <= 14; i++) {
+        if(ans1 >= arr[i]) {
+            int buy = ans1 / arr[i];
+            cnt1 += buy;
+            ans1 -= buy * arr[i];
         }
     }
-    int bnp_total = bnp_cash + (bnp_stock * arr[14]);
 
-    int up_cnt = 0, down_cnt = 0;
-    for (int i = 2; i <= 14; i++) {
-        if (arr[i] > arr[i - 1]) {
-            up_cnt++;
-            down_cnt = 0;
-        } else if (arr[i] < arr[i - 1]) {
-            down_cnt++;
-            up_cnt = 0;
-        } else {
-            up_cnt = 0;
-            down_cnt = 0;
+    int result1 = ans1 + (cnt1 * arr[14]);
+
+    int tmp1 = 0;       // 구매 카운트
+    int tmp2 = 0;       // 판매 카운트
+
+    for(int i = 2; i <= 14; i++) {
+        if(arr[i] < arr[i-1]) {
+            tmp1++;
+            tmp2 = 0;
+        }
+        else if(arr[i] > arr[i-1]) {
+            tmp2++;
+            tmp1 = 0;
+        }
+        else {
+            tmp1 = 0;
+            tmp2 = 0;
         }
 
-        if (down_cnt >= 3) {
-            int buy = timing_cash / arr[i];
-            timing_stock += buy;
-            timing_cash -= buy * arr[i];
+        if(tmp1 >= 3) {     // 사는 것
+            int buy = ans2 / arr[i];
+            cnt2 += buy;
+            ans2 -= buy * arr[i];
         }
-        if (up_cnt >= 3 && timing_stock > 0) {  
-            timing_cash += timing_stock * arr[i];
-            timing_stock = 0;
+        else if(tmp2 >= 3 && cnt2 > 0) {
+            int money = cnt2 * arr[i];
+            ans2 += money;
+            cnt2 = 0;
         }
     }
-    int timing_total = timing_cash + (timing_stock * arr[14]);
 
-    if (bnp_total > timing_total) {
-        cout << "BNP" << endl;
-    } else if (bnp_total < timing_total) {
-        cout << "TIMING" << endl;
-    } else {
-        cout << "SAMESAME" << endl;
+    int result2 = ans2 + cnt2 * arr[14];
+
+    if(result1 > result2) {
+        cout << "BNP";
+    }
+    else if(result1 < result2) {
+        cout << "TIMING";
+    }
+    else {
+        cout << "SAMESAME";
     }
 }
 
