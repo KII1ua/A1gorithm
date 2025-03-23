@@ -14,13 +14,9 @@ void solve() {
     int cnt = 0;
 
     for(int i = 1; i <= N; i++) {
-        if(arr[i] <= arr[i+1]) {
-            cnt++;
-            result += cnt;
-        }
-        else {
-            cnt++;
-            result += cnt;
+        cnt++;
+        result += cnt;
+        if(arr[i] > arr[i+1]) {
             cnt = 0;
         }
     }
