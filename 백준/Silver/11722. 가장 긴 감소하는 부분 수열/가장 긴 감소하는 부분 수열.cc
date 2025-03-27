@@ -6,22 +6,21 @@ typedef long long ll;
 
 int dx[] = {-1, 1, 0, 0, -1, -1, 1, 1};
 int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
+int N;
 int arr[1001];
 int dp[1001];
-int N;
 
 void solve() {
-    fill(dp, dp + N, 1);
-
-    for(int i = N-1; i >= 0; i--) {
-        for(int j = N-1; i < j; j--) {
-            if(arr[i] > arr[j]) {
-                dp[i] = max(dp[i], dp[j]+1);
+    for(int i = 0; i < N; i++) {
+        dp[i] = 1;
+        for(int j = 0; j < i; j++) {
+            if(arr[i] < arr[j] && dp[j] + 1> dp[i]) {
+                dp[i] = dp[j] + 1;
             }
         }
     }
-    
-    cout << *max_element(dp, dp + N);
+
+    cout << *max_element(dp, dp+N);
 }
 
 void input() {
