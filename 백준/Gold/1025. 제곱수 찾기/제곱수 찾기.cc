@@ -40,11 +40,12 @@ void solve() {
                     x = i;
                     y = j;
 
+                    if(k == 0 && l == 0) continue;
+
                     string s;
                     while(0 <= x && 0 <= y && x < N && y < M) {
                         s += graph[x][y];
 
-                        if(k == 0 && l == 0) break;
 
                         int res = convert(s);
 
