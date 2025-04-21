@@ -15,12 +15,17 @@ string s;
 int minCnt = MAX, maxCnt;
 
 void bt(string a, int cnt) {
+    for(int i = 0; i < a.size(); i++) {
+        int stand = a[i] - '0';
+
+        if(stand % 2 != 0) {
+            cnt++;
+        }
+    }
+
     if(a.length() == 1) {
         int tmp = stoi(a);
 
-        if(tmp % 2 != 0) {
-            cnt++;
-        }
         maxCnt = max(maxCnt, cnt);
         minCnt = min(minCnt, cnt);
         return;
@@ -31,31 +36,19 @@ void bt(string a, int cnt) {
 
         int tmpnum = tmpa + tmpb;
 
-        if(tmpnum % 2 != 0) {
-            cnt++;
-        }
         bt(to_string(tmpnum), cnt);
     }
     else {
         for(int i = 0; i < a.length() - 2; i++) {
             for(int j = i+1; j < a.length()-1; j++) {
-                string s1 = a.substr(0, i+1);
-                string s2 = a.substr(i+1, j-i);
-                string s3 = a.substr(j+1);
+                string s1 = a.substr(0, i + 1);
+                string s2 = a.substr(i + 1, j - i);
+                string s3 = a.substr(j + 1);
 
                 int a1 = stoi(s1);
                 int a2 = stoi(s2);
                 int a3 = stoi(s3);
 
-                if(a1 % 2 != 0) {
-                    cnt++;
-                }
-                if(a2 % 2 != 0) {
-                    cnt++;
-                }
-                if(a3 % 2 != 0) {
-                    cnt++;
-                }
                 bt(to_string(a1 + a2 + a3), cnt);
             }
         }
