@@ -16,6 +16,10 @@ vector<vector<int>> v(100001);
 int visited[100001];
 int cnt = 1;
 
+bool compare(int a, int b) {
+    return a > b;
+}
+
 void bfs() {
     queue<int> q;
     q.push(R);
@@ -57,7 +61,7 @@ void input() {
     }
 
     for(int i = 1; i <= N; i++) {
-        sort(v[i].rbegin(), v[i].rend());
+        sort(v[i].begin(), v[i].end(), compare);
     }
 }
 
