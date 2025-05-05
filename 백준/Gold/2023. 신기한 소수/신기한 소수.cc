@@ -14,7 +14,6 @@ int dx[] = {-1 ,1, 0, 0, -1, -1, 1, 1};
 int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
 int N;
 int first[] = {2, 3, 5, 7};
-int arr[10];
 
 bool isPrime(int num) {
     if(num < 2) return false;
@@ -28,13 +27,11 @@ bool isPrime(int num) {
 
 void bt(int x, int cnt) {
     if(cnt == 0) {
-        if(isPrime(x)) {
-            cout << x << endl;
-        }
+        cout << x << endl;
         return;
     }
 
-    for(int i = 1; i < 10; i++) {
+    for(int i = 1; i < 10; i += 2) {
         int tmp = x * 10 + i;
         if(isPrime(tmp)) {
             bt(tmp, cnt-1);
