@@ -13,7 +13,7 @@ struct coordinate {
 int dx[] = {0, 0, -1, 1, 1, -1, -1, 1};
 int dy[] = {-1, 1, 0, 0, -1, 1, -1, 1};
 int N, K;
-int arr[1000001];
+int arr[1000002];
 int result = MAX;
 
 void solve() {
@@ -31,7 +31,7 @@ void solve() {
         }
         else {
             end++;
-            if(arr[end] == 1 && end < N) cnt++;
+            if(arr[end] == 1) cnt++;
         }
     }
 
