@@ -12,33 +12,36 @@ struct coordinate {
 
 int dx[] = {0, 0, -1, 1, 1, -1, -1, 1};
 int dy[] = {-1, 1, 0, 0, -1, 1, -1, 1};
-int N;
-ll result;
+int n;
 vector<int> v;
+const int N = 50000;
+int cnt[N * 3];
 
 void solve() {
     sort(v.begin(), v.end());
+    ll ans = 0;
 
-    for(int i = 0; i < N-1; i++) {
-        for(int j = i + 1; j < N; j++) {
-            int c = v[i] + v[j];
+    for(int i = 0; i < n; i++) {
+        for(int j = i + 1; j < n; j++) {
+            ll val = v[i] + v[j];
+            ll res = cnt[-val + N];
 
-            int idx1 = lower_bound(v.begin() + j + 1, v.end(), -c) - v.begin();
-            int idx2 = upper_bound(v.begin() + j + 1, v.end(), -c) - v.begin();
-            result += idx2 - idx1;
+            if(-val == v[i]) res--;
+            if(-val == v[j]) res--;
+            ans += res;
         }
     }
-
-    cout << result;
+    cout << ans / 3;
 }
 
 void input() {
-    cin >> N;
+    cin >> n;
 
-    for(int i = 0; i < N; i++) {
+    for(int i = 0; i < n; i++) {
         int a;
         cin >> a;
         v.push_back(a);
+        cnt[v[i] + N]++;
     }
 }
 
