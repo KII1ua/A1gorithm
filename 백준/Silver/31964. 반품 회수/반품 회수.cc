@@ -17,65 +17,21 @@ int dy[] = {0, -1, 1, 0, -1, 1, -1, 1};
 //int dx[] = {-2, -2, -1, -1, 1, 1, 2, 2};
 //int dy[] = {-1, 1, -2, 2, -2, 2, -1, 1};
 int N;
-ll dist;
 vector<pii> v;
 bool visited[3001];
+int res;
 
 void solve() {
     sort(v.begin(), v.end());
 
-    int time = 0;
-    for(int i = 0; i < N; i++) {
-        int locate = v[i].first;
-        int boxtime = v[i].second;
+    res = max(v[N-1].first, v[N-1].second);
 
-        if(locate >= boxtime) {
-            visited[i] = true;
-        }
+    for(int i = N-1; i >= 1; i--) {
+        int dist = v[i].first - v[i-1].first;
+        res = max(res + dist, v[i-1].second);
     }
 
-    time += v[N-1].first;
-    int curloc = time;
-    bool flag = true;
-
-    for(int i = 0; i < N; i++) {
-        if(!visited[i]) {
-            flag = false;
-            break;
-        }
-    }
-
-    if(!flag) {
-        for (int i = N - 1; i >= 0; i--) {
-            int locate = v[i].first;
-            int boxtime = v[i].second;
-
-            if (visited[i]) {
-                continue;
-            }
-
-
-            if (curloc != locate) {      // 현재 위치랑 다를 경우
-                int addloc = curloc - locate;
-                time += addloc;
-                curloc = locate;
-
-                if (time >= boxtime) {       // 현재 시간이 반품 시간보다 큰경우 바로 가져감
-                    continue;
-                } else {                      // 기다렸다 가져감
-                    int tmp = boxtime - time;
-                    time += tmp;
-                }
-            } else {
-                int addtime = boxtime - time;
-                time += addtime;
-            }
-        }
-        cout << time + v[0].first;
-    }
-    else {
-        cout << v[N-1].first * 2;
-    }
+    cout << res + v[0].first;
 }
 
 void input() {
