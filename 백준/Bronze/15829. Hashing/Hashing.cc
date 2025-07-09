@@ -15,7 +15,7 @@ void solve() {
 
     for(int i = 0; i < N; i++) {
         int stand = s[i] - 'a' + 1;
-        int res = 1;
+        ll res = 1;
 
         if(i == 0) {
             answer += stand;
@@ -27,7 +27,8 @@ void solve() {
         }
         else {
             for(int j = 0; j < i; j++) {
-                res *= 31 % 1234567891;
+                res *= 31;
+                res %= 1234567891;
             }
         }
 
