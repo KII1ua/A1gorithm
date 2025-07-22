@@ -7,38 +7,31 @@ typedef long long ll;
 
 int dx[] = {0, 1, -1, 0, 1, -1, -1, 1};
 int dy[] = {1, 0, 0, -1, -1, 1, -1, 1};
-int N, T, result;
-int weight[101];
-int value[101];
-int dp[101][10001];
+int N, T;
+int dp[10001];
+vector<pii> v;
 
 void solve() {
-    for(int i = 1; i <= N; i++) {
-        for(int j = 1; j <= T; j++) {
-            if(weight[i] > j) {
-                dp[i][j] = dp[i-1][j];
-                result = max(result, dp[i][j]);
-            }
-            else {
-                dp[i][j] = max(dp[i-1][j], value[i] + dp[i-1][j-weight[i]]);
-                result = max(result, dp[i][j]);
-            }
+    for(auto it : v) {
+        int times = it.first;
+        int score = it.second;
+
+        for(int j = T; j >= times; j--) {
+            dp[j] = max(dp[j], dp[j-times] + score);
         }
     }
 
-    cout << result;
+    cout << dp[T];
 }
 
 void input() {
     cin >> N >> T;
 
-    for(int i = 1; i <= N; i++) {
+    for(int i = 0; i < N; i++) {
         int a, b;
         cin >> a >> b;
-        weight[i] = a;
-        value[i] = b;
+        v.push_back({a, b});
     }
-
 }
 
 int main() {
