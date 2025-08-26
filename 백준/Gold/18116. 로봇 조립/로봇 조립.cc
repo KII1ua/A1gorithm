@@ -28,12 +28,10 @@ void Union(int a, int b) {
     if(a > b) {
         unf[a] = b;
         cnt[b] += cnt[a];
-        cnt[a] = 0;
     }
     else {
         unf[b] = a;
         cnt[a] += cnt[b];
-        cnt[b] = 0;
     }
 }
 
