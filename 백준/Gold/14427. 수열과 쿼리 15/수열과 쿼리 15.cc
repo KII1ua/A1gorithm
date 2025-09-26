@@ -29,16 +29,16 @@ void solve() {
             pq.push({c, b});
         }
         else {
-            int idx = pq.top().second;
             int value = pq.top().first;
+            int idx = pq.top().second;
 
-            while(arr[idx] != value) {
-                pq.pop();
-                idx = pq.top().second;
-                value = pq.top().first;
+            if(arr[idx] != value) {
+                while(arr[idx] != value) {
+                    pq.pop();
+                    value = pq.top().first;
+                    idx = pq.top().second;
+                }
             }
-
-            idx = pq.top().second;
 
             cout << idx << endl;
         }
@@ -57,7 +57,6 @@ void input() {
 
     solve();
 }
-
 
 int main() {
     ios::sync_with_stdio(0);
