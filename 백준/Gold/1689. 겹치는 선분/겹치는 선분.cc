@@ -14,8 +14,8 @@ struct coordinate {
 int dx[] = {-1, 1, 0, 0, 1, -1, -1, 1};
 int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
 int N;
-vector<pair<ll, ll>> v;
-priority_queue<ll, vector<ll>, greater<ll>> pq;
+vector<pii> v;
+priority_queue<int, vector<int>, greater<int>> pq;
 
 void solve() {
     int answer = 1;
