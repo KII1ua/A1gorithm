@@ -8,25 +8,34 @@ typedef long long ll;
 struct coordinate {
     int x;
     int y;
+    int r;
 };
 
-int dx[] = {-1 ,1, 0, 0, -1, -1, 1, 1};
-int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
+struct horse {
+    int x;
+    int y;
+    int dir;
+};
+
+// int dx[] = {-1, 1, 0, 0, 1, -1, -1, 1};
+// int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
+int dx[] = {0, 0, 0, 1, -1};
+int dy[] = {0, 1, -1, 0, 0};
 int T, N, K, M;
-int test = 1;
-int unf[100000];
+int unf[100001];
+int cnt = 1;
 
 int Find(int a) {
     if(a == unf[a]) return a;
-    return a = Find(unf[a]);
+    return unf[a] = Find(unf[a]);
 }
 
 void Union(int a, int b) {
     a = Find(a);
     b = Find(b);
 
-    if(a > b) unf[b] = a;
-    else unf[a] = b;
+    if(a > b) unf[a] = b;
+    else unf[b] = a;
 }
 
 bool isUnion(int a, int b) {
@@ -46,9 +55,12 @@ void Init() {
 void input() {
     cin >> T;
 
+
     while(T--) {
         cin >> N >> K;
 
+        cout << "Scenario " << cnt << ":" << endl;
+        
         Init();
 
         for(int i = 0; i < K; i++) {
@@ -59,19 +71,17 @@ void input() {
 
         cin >> M;
 
-        cout << "Scenario " << test << ":" << endl;
-
         for(int i = 0; i < M; i++) {
-            int u, v;
-            cin >> u >> v;
-            if(isUnion(u, v)) {
+            int a, b;
+            cin >> a >> b;
+
+            if(isUnion(a, b)) {
                 cout << 1 << endl;
             }
             else cout << 0 << endl;
         }
+        cnt++;
         cout << endl;
-
-        test++;
     }
 }
 
