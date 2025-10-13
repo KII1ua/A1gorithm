@@ -31,16 +31,25 @@ void solve() {
 
     int answer = 0;
 
-    for(int i = 1;  i <= N; i++) {
+    for(int i = 1; i <= N; i++) {
         if(v[i].size() == 0) continue;
-        int min_dist = MAX;
-        for(int j = 1; j < v[i].size(); j++) {
-            int tmp = v[i][j] - v[i][j-1];
 
-            answer += tmp;
-            min_dist = min(min_dist, tmp);
+        for(int j = 0; j < v[i].size(); j++) {
+            int pos = v[i][j];
+            int min_dist = MAX;
+
+            if(j < v[i].size() - 1) {     // 오른쪽 탐색
+                int dst = abs(pos - v[i][j+1]);
+                min_dist = min(dst, min_dist);
+            }
+
+            if(j != 0) {
+                int dst = pos - v[i][j-1];
+                min_dist = min(dst, min_dist);
+            }
+
+            answer += min_dist;
         }
-        answer += min_dist;
     }
 
     cout << answer;
