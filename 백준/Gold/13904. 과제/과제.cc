@@ -11,35 +11,48 @@ struct coordinate {
     int r;
 };
 
-int dx[] = {-1, 1, 0, 0, 1, -1, -1, 1};
-int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
+struct horse {
+    int x;
+    int y;
+    int dir;
+};
+
+// int dx[] = {-1, 1, 0, 0, 1, -1, -1, 1};
+// int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
+int dx[] = {0, 0, 1, -1};
+int dy[] = {1, -1, 0, 0};
 int N;
 vector<pii> v;
-int visited[1001];
+bool visited[1001];
 
 bool compare(pii a, pii b) {
+    return a.second > b.second;
+
     if(a.second == b.second) {
         return a.first > b.first;
     }
-    else return a.second > b.second;
 }
 
 void solve() {
     sort(v.begin(), v.end(), compare);
 
     int answer = 0;
+
     for(int i = 0; i < N; i++) {
-        int endDay = v[i].first;
+        int day = v[i].first;
         int score = v[i].second;
 
-        for(int j = endDay; j >= 1; j--) {
-            if(visited[j]) {
-                continue;
-            }
-            else {
-                answer += score;
-                visited[j] = true;
-                break;
+        if(!visited[day]) {
+            visited[day] = true;
+            answer += score;
+        }
+        else {
+            for(int j = day; j >= 1; j--) {
+                if(!visited[j]) {
+                    visited[j] = true;
+                    answer += score;
+                    break;
+                }
             }
         }
     }
