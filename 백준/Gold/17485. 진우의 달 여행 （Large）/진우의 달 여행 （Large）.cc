@@ -11,13 +11,21 @@ struct coordinate {
     int r;
 };
 
-// int dx[] = {0, -1, 0, 1, 1, -1, -1, 1};
-// int dy[] = {-1, 0, 1, 0, -1, 1, -1, 1};
+struct horse {
+    int x;
+    int y;
+    int dir;
+};
+
+// int dx[] = {-1, 1, 0, 0, 1, -1, -1, 1};
+// int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
+// int dx[] = {0, 0, 1, -1};
+// int dy[] = {1, -1, 0, 0};
 int dx[] = {1, 1, 1};
 int dy[] = {-1, 0, 1};
 int N, M;
 int graph[1001][1001];
-int dp[1001][1001][4];
+int dp[1001][1001][3];
 
 void Init() {
     for(int i = 0; i < N; i++) {
@@ -30,11 +38,9 @@ void Init() {
 }
 
 void solve() {
-    Init();
-
-    for(int i = 0; i < M; i++) {
-        for(int j = 0; j < 3; j++) {
-            dp[0][i][j] = graph[0][i];
+    for(int j = 0; j < M; j++) {
+        for(int k = 0; k < 3; k++) {
+            dp[0][j][k] = graph[0][j];
         }
     }
 
@@ -59,9 +65,9 @@ void solve() {
 
     int answer = MAX;
 
-    for(int i = 0; i < M; i++) {
-        for(int j = 0; j < 3; j++) {
-            answer = min(answer, dp[N-1][i][j]);
+    for(int j = 0; j < M; j++) {
+        for(int k = 0; k < 3; k++) {
+            answer = min(answer, dp[N-1][j][k]);
         }
     }
 
@@ -70,6 +76,8 @@ void solve() {
 
 void input() {
     cin >> N >> M;
+
+    Init();
 
     for(int i = 0; i < N; i++) {
         for(int j = 0; j < M; j++) {
