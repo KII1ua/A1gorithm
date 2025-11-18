@@ -34,7 +34,7 @@ void Print() {
 }
 
 void solve() {
-    for(int j = 1; j < N+D; j++) {
+    for(int j = 1; j <= N; j++) {
         dp[0][j] = dp[0][j-1] + arr[j];
         
         if(dp[0][j] >= M) {
@@ -45,10 +45,9 @@ void solve() {
 
     for(int i = 1; i <= N; i++) {       // 헌혈 횟수
         for(int j = 1; j < N+D; j++) {
-            dp[i][j] = max(dp[i][j], dp[i][j-1] + arr[j]);
             if(j < D) continue;
 
-            dp[i][j] = max(dp[i][j], dp[i-1][j-D] + A);
+            dp[i][j] = max(dp[i][j-1] + arr[j], dp[i-1][j-D] + A);
 
             if(dp[i][j] >= M) {
                 cout << i;
