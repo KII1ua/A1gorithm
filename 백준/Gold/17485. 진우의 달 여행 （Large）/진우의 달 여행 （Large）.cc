@@ -11,61 +11,35 @@ struct coordinate {
     int r;
 };
 
-struct horse {
-    int x;
-    int y;
-    int dir;
+struct halloween {
+    int cnt;
+    int score;
 };
 
 // int dx[] = {-1, 1, 0, 0, 1, -1, -1, 1};
 // int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
-// int dx[] = {0, 0, 1, -1};
-// int dy[] = {1, -1, 0, 0};
-int dx[] = {1, 1, 1};
-int dy[] = {-1, 0, 1};
+int dx[] = {0, 0, 1, -1};
+int dy[] = {1, -1, 0, 0};
 int N, M;
-int graph[1001][1001];
-int dp[1001][1001][3];
-
-void Init() {
-    for(int i = 0; i < N; i++) {
-        for(int j = 0; j < M; j++) {
-            for(int k = 0; k < 3; k++) {
-                dp[i][j][k] = MAX;
-            }
-        }
-    }
-}
+int graph[1002][1002];
+int dp[1004][1004][3];
 
 void solve() {
-    for(int j = 0; j < M; j++) {
-        for(int k = 0; k < 3; k++) {
-            dp[0][j][k] = graph[0][j];
-        }
+    for(int j = 1; j <= M; j++) {
+        dp[0][j][0] = dp[0][j][1] = dp[0][j][2] = graph[0][j];
     }
 
     for(int i = 1; i < N; i++) {
-        for(int j = 0; j < M; j++) {
-            for(int k = 0; k < 3; k++) {
-                int prevx = i-1;
-                int prevy = j - dy[k];
-
-                if(prevy < 0 || prevy >= M) continue;
-
-                int cost = MAX;
-
-                for(int d = 0; d < 3; d++) {
-                    if(k == d) continue;
-                    cost = min(cost, dp[prevx][prevy][d]);
-                }
-                if(cost != MAX) dp[i][j][k] = cost + graph[i][j];
-            }
+        for(int j = 1; j <= M; j++) {
+            dp[i][j][0] = min(dp[i-1][j-1][1], dp[i-1][j-1][2]) + graph[i][j];
+            dp[i][j][1] = min(dp[i-1][j][0], dp[i-1][j][2]) + graph[i][j];
+            dp[i][j][2] = min(dp[i-1][j+1][1], dp[i-1][j+1][0]) + graph[i][j];
         }
     }
 
     int answer = MAX;
 
-    for(int j = 0; j < M; j++) {
+    for(int j = 1; j <= M; j++) {
         for(int k = 0; k < 3; k++) {
             answer = min(answer, dp[N-1][j][k]);
         }
@@ -74,16 +48,26 @@ void solve() {
     cout << answer;
 }
 
+void Init() {
+    for(int i = 0; i < N; i++) {
+        for(int j = 0; j <= M+2; j++) {
+            for(int k = 0; k < 3; k++) {
+                dp[i][j][k] = MAX;
+            }
+        }
+    }
+}
+
 void input() {
     cin >> N >> M;
 
-    Init();
-
     for(int i = 0; i < N; i++) {
-        for(int j = 0; j < M; j++) {
+        for(int j = 1; j <= M; j++) {
             cin >> graph[i][j];
         }
     }
+
+    Init();
 }
 
 int main() {
