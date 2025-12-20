@@ -3,62 +3,52 @@ using namespace std;
 typedef pair<int, int> pii;
 typedef long long ll;
 #define endl "\n"
-#define MAX 1e9
 
-struct coordinate {
-    int x;
-    int y;
-    int r;
-};
-
-struct halloween {
-    int cnt;
-    int score;
-};
-
-// int dx[] = {-1, 1, 0, 0, 1, -1, -1, 1};
-// int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
+const int INF = 1e9;
 int dx[] = {0, 0, 1, -1};
 int dy[] = {1, -1, 0, 0};
-int M, N;
+int N, M;
 int graph[501][501];
 int dp[501][501];
+int answer;
 
-int ret(int x, int y) {
-    if(x == M-1 && y == N-1) return 1;
+int func(int x, int y) {
+    int &ret = dp[x][y];
 
-    if(dp[x][y] != -1) {
-        return dp[x][y];
+    if(x == N-1 && y == M-1) {
+        return 1;
     }
 
-    dp[x][y] = 0;
+    if(ret != -1) return ret;
+
+    ret = 0;
 
     for(int i = 0; i < 4; i++) {
         int nx = x + dx[i];
         int ny = y + dy[i];
 
-        if(nx >= 0 && nx < M && ny >= 0 && ny < N) {
-            if(graph[x][y] > graph[nx][ny]) {
-                dp[x][y] += ret(nx, ny);
-            }
+        if(nx < 0 || nx >= N || ny < 0 || ny >= M) continue;
+
+        if(graph[nx][ny] < graph[x][y]) {
+            ret += func(nx, ny);
         }
     }
 
-    return dp[x][y];
+    return ret;
 }
 
 void solve() {
-    memset(dp, -1, sizeof(dp));
-
-    cout << ret(0, 0);
+    cout << func(0, 0);
 }
 
 void input() {
-    cin >> M >> N;
+    cin >> N >> M;
 
-    for(int i = 0; i < M; i++) {
-        for(int j = 0; j < N; j++) {
+    for(int i = 0; i < N; i++) {
+        for(int j = 0; j < M; j++) {
             cin >> graph[i][j];
+
+            dp[i][j] = -1;
         }
     }
 }
