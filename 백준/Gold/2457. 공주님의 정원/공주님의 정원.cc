@@ -10,12 +10,6 @@ int dy[] = {1, -1, 0, 0};
 int N;
 vector<pii> v;
 
-void Print() {
-    for(auto it : v) {
-        cout << it.first << " " << it.second << endl;
-    }
-}
-
 void solve() {
     sort(v.begin(), v.end());
 
@@ -23,6 +17,7 @@ void solve() {
         cout << 0;
         return;
     }
+
     int end_time = 301;
     int i = 0;
     int cnt = 0;
@@ -31,17 +26,18 @@ void solve() {
         int new_time = 0;
 
         for(; i < N; i++) {
+
             if(v[i].first >= v[i].second) continue;
 
             if(end_time >= v[i].first) {
-                if(new_time < v[i].second) {
+                if(new_time <= v[i].second) {
                     new_time = v[i].second;
                 }
             }
             else break;
-
         }
-        if(end_time == 0) {
+
+        if(new_time == 0) {
             break;
         }
         else {
@@ -52,12 +48,8 @@ void solve() {
 
     if(end_time > 1130) {
         cout << cnt;
-        return;
     }
-    else {
-        cout << 0;
-        return;
-    }
+    else cout << 0;
 }
 
 void input() {
@@ -66,7 +58,8 @@ void input() {
     for(int i = 0; i < N; i++) {
         int a, b, c, d;
         cin >> a >> b >> c >> d;
-        v.push_back({a * 100 + b, c * 100 + d});
+
+        v.push_back({100 * a + b, 100 * c + d});
     }
 }
 
