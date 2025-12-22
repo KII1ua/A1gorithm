@@ -3,50 +3,37 @@ using namespace std;
 typedef pair<int, int> pii;
 typedef long long ll;
 #define endl "\n"
-#define MAX 1e9
 
-struct coordinate {
-    int x;
-    int y;
-    int r;
-};
-
-struct halloween {
-    int cnt;
-    int score;
-};
-
-// int dx[] = {-1, 1, 0, 0, 1, -1, -1, 1};
-// int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
+const int INF = 1e9;
 int dx[] = {0, 0, 1, -1};
 int dy[] = {1, -1, 0, 0};
 int N;
-vector<int> v;
-int answer = MAX;
+int arr[601];
+vector<tuple<int, int, int>> v;
+int answer = INF;
 
 void solve() {
-    vector<tuple<int, int, int>>  arr;
-
     for(int i = 0; i < N; i++) {
         for(int j = i + 1; j < N; j++) {
-            arr.push_back({v[i] + v[j], i, j});
+            v.push_back({arr[i] + arr[j], i, j});
         }
     }
 
-    sort(arr.begin(), arr.end());
+    sort(v.begin(), v.end());
 
-    for(int i = 0; i < arr.size(); i++) {
-        for(int j = i + 1; j < arr.size(); j++) {
-            int idx1 = get<1>(arr[i]);
-            int idx2 = get<2>(arr[i]);
-            int idx3 = get<1>(arr[j]);
-            int idx4 = get<2>(arr[j]);
+    for(int i = 0; i < v.size(); i++) {
+        for(int j = i + 1; j < v.size(); j++) {
+            int idx1 = get<1>(v[i]);
+            int idx2 = get<2>(v[i]);
+
+            int idx3 = get<1>(v[j]);
+            int idx4 = get<2>(v[j]);
 
             if((idx1 != idx3) && (idx1 != idx4) && (idx2 != idx3) && (idx2 != idx4)) {
-                int diff = get<0>(arr[j]) - get<0>(arr[i]);
+                int diff = get<0>(v[j]) - get<0>(v[i]);
                 answer = min(answer, diff);
-                break;
             }
+            else break;
         }
     }
 
@@ -57,9 +44,7 @@ void input() {
     cin >> N;
 
     for(int i = 0; i < N; i++) {
-        int a;
-        cin >> a;
-        v.push_back(a);
+        cin >> arr[i];
     }
 }
 
