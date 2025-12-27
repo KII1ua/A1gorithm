@@ -3,87 +3,65 @@ using namespace std;
 typedef pair<int, int> pii;
 typedef long long ll;
 #define endl "\n"
-#define MAX 1e11
 
-struct coordinate {
-    int x;
-    int y;
-    int r;
+struct Tree {
+    int Node, left, right;
 };
 
-struct halloween {
-    int cnt;
-    int score;
-};
+const int INF = 1e9;
+int dx[] = {0, 0, 1, -1};
+int dy[] = {1, -1, 0, 0};
+ll xs, ys, xe, ye;
+vector<tuple<ll, ll, ll, ll>> v(3);
+ll answer = INF;
 
-// int dx[] = {-1, 1, 0, 0, 1, -1, -1, 1};
-// int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
-// int dx[] = {0, 0, 1, -1};
-// int dy[] = {1, -1, 0, 0};
-int xs, ys, xe, ye;
-vector<pair<ll, ll>> v;
-ll graph[8][8];
-
-void Init() {
-    for(int i = 0; i < 8; i++) {
-        for(int j = 0; j < 8; j++) {
-            if(i == j) continue;
-            graph[i][j] = MAX;
+bool check(vector<int> &arr) {
+    for(auto &it : arr) {
+        if(it != 5) {
+            it++;
+            return true;
+        }
+        else {
+            it = -1;
         }
     }
-}
 
-void Print() {
-    for(int i = 0; i < 8; i++) {
-        for(int j = 0; j < 8; j++) {
-            cout << graph[i][j] << " ";
-        }
-        cout << endl;
-    }
-
-    cout << endl;
-
-    for(auto it : v) {
-        cout << it.first << " " << it.second << endl;
-    }
+    return false;
 }
 
 void solve() {
-    for(int i = 0; i < v.size(); i++) {
-        for(int j = 0; j < v.size(); j++) {
-            if(i == j) continue;
+    vector<int> seq(3, -1);
 
-            ll lens = abs(v[i].first - v[j].first) + abs(v[i].second - v[j].second);
-            graph[i][j] = min(graph[i][j], lens);
-            graph[j][i] = min(graph[j][i], lens);
+    answer = abs(xe - xs) + abs(ye - ys);
+
+    do {
+        ll startx = xs;
+        ll starty = ys;
+        ll tmp = 0;
+
+        for(auto &it : seq) {
+            if(it == -1) continue;
+
+            tmp += abs(startx - get<0>(v[it])) + abs(starty - get<1>(v[it])) + 10;
+            startx = get<2>(v[it]);
+            starty = get<3>(v[it]);
         }
-    }
 
-    for(int k = 0; k < v.size(); k++) {
-        for(int i = 0; i < v.size(); i++) {
-            for(int j = 0; j < v.size(); j++) {
-                graph[i][j] = min(graph[i][j], graph[i][k] + graph[k][j]);
-            }
-        }
-    }
+        tmp += abs(xe - startx) + abs(ye - starty);
+        answer = min(answer, tmp);
+    } while(check(seq));
 
-    cout << graph[0][1];
+    cout << answer;
 }
 
 void input() {
-    Init();
-
     cin >> xs >> ys >> xe >> ye;
-    v.push_back({xs ,ys});
-    v.push_back({xe, ye});
 
     for(int i = 0; i < 3; i++) {
-        int x1, y1, x2, y2;
-        cin >> x1 >> y1 >> x2 >> y2;
-        graph[v.size()][v.size()+1] = 10;
-        graph[v.size()+1][v.size()] = 10;
-        v.push_back({x1, y1});
-        v.push_back({x2, y2});
+        auto &a = v[i];
+
+        cin >> get<0>(a) >> get<1>(a) >> get<2>(a) >> get<3>(a);
+        v.push_back({get<2>(a), get<3>(a), get<0>(a), get<1>(a)});
     }
 }
 
