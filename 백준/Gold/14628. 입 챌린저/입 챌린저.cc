@@ -13,38 +13,23 @@ int dx[] = {0, 0, 1, -1};
 int dy[] = {1, -1, 0, 0};
 int N, M, K;
 vector<pii> v;
-int dp[101][101][101];
-
-int func(int skill, int cnt, int hp) {
-    if(hp < 0) return INF;
-
-    if(hp == 0) return 0;
-
-    if(skill >= N) return INF;
-
-    int &ret = dp[skill][cnt][hp];
-
-    if(ret != INF) return ret;
-
-    int ret1 = func(skill+1, 0, hp);
-
-    int cost = v[skill].first + (cnt * K);
-
-    int ret2 = func(skill, cnt+1, hp - v[skill].second) + cost;
-
-    return ret = min(ret1, ret2);
-}
+int dp[101];
 
 void solve() {
     for(int i = 0; i < N; i++) {
-        for(int j = 0; j <= M; j++) {
-            for(int k = 0; k <= M; k++) {
-                dp[i][j][k] = INF;
+        int damage = v[i].second;
+
+        for(int j = 1; j <= M; j++) {
+            int cost = v[i].first + (j - 1) * K;
+
+            for(int k = M; k >= 0; k--) {
+                if(k - damage < 0) continue;
+                dp[k] = min(dp[k], dp[k - damage] + cost);
             }
         }
     }
 
-    cout << func(0, 0, M);
+    cout << dp[M];
 }
 
 void input() {
@@ -54,6 +39,10 @@ void input() {
         int a, b;
         cin >> a >> b;
         v.push_back({a, b});
+    }
+
+    for(int i = 1; i <= M; i++) {
+        dp[i] = INF;
     }
 }
 
