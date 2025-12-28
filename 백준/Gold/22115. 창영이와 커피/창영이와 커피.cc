@@ -3,39 +3,32 @@ using namespace std;
 typedef pair<int, int> pii;
 typedef long long ll;
 #define endl "\n"
-#define MAX 1e9
 
-struct coordinate {
-    int x;
-    int y;
-    int r;
+struct Tree {
+    int Node, left, right;
 };
 
-struct halloween {
-    int cnt;
-    int score;
-};
-
-// int dx[] = {-1, 1, 0, 0, 1, -1, -1, 1};
-// int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
+const int INF = 1e9;
 int dx[] = {0, 0, 1, -1};
 int dy[] = {1, -1, 0, 0};
 int N, K;
-int dp[100001];
 int arr[101];
+int dp[100001];
 
 void solve() {
-    for(int i = 1; i <= K; i++) {
-        dp[i] = MAX;
-    }
-
     for(int i = 0; i < N; i++) {
-        for(int j = K; j >= arr[i]; j--) {
-            dp[j] = min(dp[j], dp[j-arr[i]] + 1);
+        int caffee = arr[i];
+
+        for(int j = K; j >= 0; j--) {
+            if(j - caffee < 0) continue;
+            dp[j] = min(dp[j], dp[j - caffee] + 1);
         }
     }
 
-    cout << ((dp[K] == MAX)? -1 : dp[K]);
+    if(dp[K] == INF) {
+        cout << -1;
+    }
+    else cout << dp[K];
 }
 
 void input() {
@@ -43,6 +36,10 @@ void input() {
 
     for(int i = 0; i < N; i++) {
         cin >> arr[i];
+    }
+
+    for(int i = 1; i <= K; i++) {
+        dp[i] = INF;
     }
 }
 
