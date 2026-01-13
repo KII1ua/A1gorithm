@@ -8,7 +8,7 @@ struct Tree {
     int Node, left, right;
 };
 
-const ll INF = 1e14;
+const ll INF = 1e15;
 const int MAX = 100005;
 const int MOD = 1e9 + 7;
 int dx[] = {0, 0, 1, -1};
