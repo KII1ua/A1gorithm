@@ -16,26 +16,19 @@ int dx[] = {0, 0, 1, -1};
 int dy[] = {1, -1, 0, 0};
 int N, K;
 vector<pii> v;
-int dp[1001][10001];
-
-int func(int idx, int time) {
-    if(time > N) return -INF;
-    if(idx >= K) return 0;
-
-    int &ret = dp[idx][time];
-
-    if(ret != -1) return ret;
-
-    ret = 0;
-
-    ret = max(func(idx+1, time), func(idx+1, time+v[idx].second) + v[idx].first);
-
-    return ret;
-}
+int dp[10001];
 
 void solve() {
-    memset(dp, -1, sizeof(dp));
-    cout << func(0, 0);
+    for(int i = 0; i < K; i++) {
+        int value = v[i].first;
+        int time = v[i].second;
+
+        for(int j = N; j >= time; j--) {
+            dp[j] = max(dp[j - time] + value, dp[j]);
+        }
+    }
+
+    cout << dp[N];
 }
 
 void input() {
