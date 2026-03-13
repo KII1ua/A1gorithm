@@ -1,0 +1,84 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef pair<int, int> pii;
+typedef long long ll;
+#define endl "\n"
+
+struct Tree {
+    int Node, left, right;
+};
+
+const int INF = 1e9;
+const int MAX = 20001;
+const int D = 2000000;
+const int MOD = 10007;
+int dx[] = {0, 0, 1, -1};
+int dy[] = {1, -1, 0, 0};
+int N, M;
+vector<int> v;
+int dp[322][322][2];
+
+int func(int l, int r, int dir, int cnt) {
+    if(cnt == 0) return 0;
+
+    if(l > r) return INF;
+
+    int &ret = dp[l][r][dir];
+    if(ret != -1) return ret;
+
+    ret = INF;
+
+    int locate = (dir)? v[r] : v[l];
+
+    if(l > 0) {
+        ret = min(ret, func(l-1, r, 0, cnt-1) + cnt * abs(locate - v[l-1]));
+    }
+
+    if(r < v.size()-1) {
+        ret = min(ret, func(l, r+1, 1, cnt-1) + cnt * abs(locate - v[r+1]));
+    }
+
+    return ret;
+}
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0), cout.tie(0);
+
+    cin >> N >> M;
+
+    bool zero = false;
+
+    for(int i = 0; i < N; i++) {
+        int a;
+        cin >> a;
+        v.push_back(a);
+
+        if(a == 0) zero = true;
+    }
+
+    int sz = 0;
+
+    if(!zero) {
+        v.push_back(0);
+        sz = v.size()-1;
+    }
+    else {
+        sz = N;
+    }
+
+    sort(v.begin(), v.end());
+
+    int idx = lower_bound(v.begin(), v.end(), 0) - v.begin();
+
+    int answer = 0;
+
+    for(int i = 1; i <= sz; i++) {
+        memset(dp, -1, sizeof(dp));
+        answer = max(answer, i * M - func(idx, idx, 0, i));
+    }
+
+    if(zero) answer += M;
+
+    cout << answer;
+}
