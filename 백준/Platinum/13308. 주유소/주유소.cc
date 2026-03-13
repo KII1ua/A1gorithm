@@ -22,7 +22,7 @@ int price[MAX];
 ll dp[MAX][MAX];       // i까지 왔을때 지나쳐온 주유소중 j가격의 최소 비용
 
 void dijkstra() {
-    priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<tuple<int, int, int>>> pq;
+    priority_queue<tuple<ll, int, int>, vector<tuple<ll, int, int>>, greater<tuple<ll, int, int>>> pq;
     pq.push({0, price[1], 1});     // 총 비용, 주유소 최소 비용, 노드
     dp[1][price[1]] = 0;
 
