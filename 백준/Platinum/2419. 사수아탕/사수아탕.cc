@@ -47,25 +47,13 @@ int main() {
 
     cin >> N >> M;
 
-    bool zero = false;
-
     for(int i = 0; i < N; i++) {
         int a;
         cin >> a;
         v.push_back(a);
-
-        if(a == 0) zero = true;
     }
 
-    int sz = 0;
-
-    if(!zero) {
-        v.push_back(0);
-        sz = v.size()-1;
-    }
-    else {
-        sz = N;
-    }
+    v.push_back(0);
 
     sort(v.begin(), v.end());
 
@@ -73,12 +61,10 @@ int main() {
 
     int answer = 0;
 
-    for(int i = 1; i <= sz; i++) {
+    for(int i = 1; i <= N; i++) {
         memset(dp, -1, sizeof(dp));
         answer = max(answer, i * M - func(idx, idx, 0, i));
     }
-
-    if(zero) answer += M;
 
     cout << answer;
 }
