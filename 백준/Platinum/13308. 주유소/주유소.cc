@@ -23,13 +23,13 @@ ll dp[MAX][MAX];       // i까지 왔을때 지나쳐온 주유소중 j가격의
 
 void dijkstra() {
     priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<tuple<int, int, int>>> pq;
-    pq.push({price[1], 1, 0});     // 비용, 노드, 가격
+    pq.push({0, price[1], 1});     // 총 비용, 주유소 최소 비용, 노드
     dp[1][price[1]] = 0;
 
     while(!pq.empty()) {
-        int mincost = get<0>(pq.top());
-        int node = get<1>(pq.top());
-        ll cost = get<2>(pq.top());
+        ll cost = get<0>(pq.top());
+        int mincost = get<1>(pq.top());
+        int node = get<2>(pq.top());
         pq.pop();
 
         if(dp[node][mincost] < cost) continue;
@@ -40,7 +40,7 @@ void dijkstra() {
             ll nextcost = cost + iter.second * mincost;
 
             if(dp[nextnode][nextmincost] > nextcost) {
-                pq.push({nextmincost, nextnode, nextcost});
+                pq.push({nextcost, nextmincost, nextnode});
                 dp[nextnode][nextmincost] = nextcost;
             }
         }
