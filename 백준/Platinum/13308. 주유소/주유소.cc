@@ -8,7 +8,7 @@ struct Tree {
     int Node, left, right;
 };
 
-const int INF = 1e9;
+const ll INF = 1e14;
 const int MAX = 2501;
 const int D = 2000000;
 const int MOD = 10007;
@@ -19,7 +19,7 @@ int dy[] = {0, -1, 1};
 int N, M;
 vector<vector<pii>> v(MAX);
 int price[MAX];
-int dp[MAX][MAX];       // i까지 왔을때 지나쳐온 주유소중 j가격의 최소 비용
+ll dp[MAX][MAX];       // i까지 왔을때 지나쳐온 주유소중 j가격의 최소 비용
 
 void dijkstra() {
     priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<tuple<int, int, int>>> pq;
@@ -29,7 +29,7 @@ void dijkstra() {
     while(!pq.empty()) {
         int mincost = get<0>(pq.top());
         int node = get<1>(pq.top());
-        int cost = get<2>(pq.top());
+        ll cost = get<2>(pq.top());
         pq.pop();
 
         if(dp[node][mincost] < cost) continue;
@@ -37,7 +37,7 @@ void dijkstra() {
         for(auto &iter : v[node]) {
             int nextnode = iter.first;
             int nextmincost = min(mincost, price[nextnode]);
-            int nextcost = cost + iter.second * mincost;
+            ll nextcost = cost + iter.second * mincost;
 
             if(dp[nextnode][nextmincost] > nextcost) {
                 pq.push({nextmincost, nextnode, nextcost});
@@ -72,7 +72,7 @@ int main() {
 
     dijkstra();
 
-    int answer = INF;
+    ll answer = INF;
 
     for(int i = 0; i <= MAX; i++) {
         answer = min(answer, dp[N][i]);
