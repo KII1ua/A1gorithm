@@ -17,7 +17,6 @@ int dy[] = {1, -1, 0, 0};
 int N;
 vector<tuple<int, int, int>> v;
 int dp[1001][1001];
-bool visited[101];
 
 int func(int STR, int INT) {
     int &ret = dp[STR][INT];
@@ -26,7 +25,6 @@ int func(int STR, int INT) {
 
     ret = 0;
     int pnt = 0;
-    vector<int> tmp;
 
     // 현재 완료할 수 있는 퀘스트 개수 세기
     for(int i = 0; i < N; i++) {
@@ -35,24 +33,18 @@ int func(int STR, int INT) {
         int pt = get<2>(v[i]);
 
         if(STR >= str || INT >= intr) {
+            pnt += pt;
             ret++;
-            if(!visited[i]) {
-                visited[i] = true;
-                pnt += pt;
-                tmp.push_back(i);
-            }
         }
     }
 
-    for(int i = 0; i <= pnt; i++) {
-        int nextstr = min(STR + pnt - i, 1000);
-        int nextint = min(INT + i, 1000);
+    int freepnt = pnt - (STR - 1) - (INT - 1);
 
-        ret = max(ret, func(nextstr,nextint));
-    }
+    for(int i = 0; i <= freepnt; i++) {
+        int nextstr = min(1000,STR + freepnt - i);
+        int nextint = min(1000, INT + i);
 
-    for(auto &iter : tmp) {
-        visited[iter] = false;
+        ret = max(ret, func(nextstr, nextint));
     }
 
     return ret;
