@@ -16,26 +16,26 @@ int dx[] = {0, 0, 1, -1};
 int dy[] = {1, -1, 0, 0};
 int N, M;
 vector<int> v;
-int dp[322][322][2];
+int dp[301][301][2];
 
-int func(int l, int r, int dir, int cnt) {
+int func(int left, int right, int dir, int cnt) {       // 왼, 오, 방향, 개수
     if(cnt == 0) return 0;
+    if(left > right) return INF;
 
-    if(l > r) return INF;
+    int &ret = dp[left][right][dir];
 
-    int &ret = dp[l][r][dir];
     if(ret != -1) return ret;
+
+    int locate = (dir)? v[right] : v[left];
 
     ret = INF;
 
-    int locate = (dir)? v[r] : v[l];
-
-    if(l > 0) {
-        ret = min(ret, func(l-1, r, 0, cnt-1) + cnt * abs(locate - v[l-1]));
+    if(left > 0) {
+        ret = min(ret, func(left-1, right, 0, cnt-1) + (cnt * abs(locate - v[left-1])));
     }
 
-    if(r < v.size()-1) {
-        ret = min(ret, func(l, r+1, 1, cnt-1) + cnt * abs(locate - v[r+1]));
+    if(right < N) {
+        ret = min(ret, func(left, right+1, 1, cnt-1) + (cnt * abs(locate - v[right+1])));
     }
 
     return ret;
@@ -63,7 +63,7 @@ int main() {
 
     for(int i = 1; i <= N; i++) {
         memset(dp, -1, sizeof(dp));
-        answer = max(answer, i * M - func(idx, idx, 0, i));
+        answer = max(answer, (i * M) - func(idx, idx, 0, i));
     }
 
     cout << answer;
