@@ -15,32 +15,33 @@ const int MOD = 10007;
 int dx[] = {0, 0, 1, -1};
 int dy[] = {1, -1, 0, 0};
 int dp[501][501];
+string s;
+
+int func(int l, int r) {
+    if(l >= r) return 0;
+
+    int &ret = dp[l][r];
+
+    if(ret != -1) return ret;
+
+    for(int i = l; i < r; i++) {
+        ret = max(ret, func(l, i) + func(i+1, r));
+    }
+
+    if((s[l] == 'a' && s[r] == 't') || (s[l] == 'g' && s[r] == 'c')) {
+        ret = max(ret, func(l+1, r-1) + 2);
+    }
+
+    return ret;
+}
 
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0), cout.tie(0);
 
-    string s;
-
     cin >> s;
 
-    int answer = 0;
+    memset(dp, -1, sizeof(dp));
 
-    for(int l = 1; l <= s.size(); l++) {     // 문자 길이
-        for(int i = 0; i + l -1 < s.size(); i++) {     // 시작점
-            int j = i + l - 1;      // 끝점
-
-            if((s[i] == 'a' && s[j] == 't') || (s[i] == 'g' && s[j] == 'c')) {
-                dp[i][j] = max(dp[i][j], dp[i+1][j-1]+2);
-                answer = max(answer, dp[i][j]);
-            }
-
-            for(int k = i; k < j; k++) {
-                dp[i][j] = max(dp[i][j], dp[i][k] + dp[k+1][j]);
-                answer = max(answer ,dp[i][j]);
-            }
-        }
-    }
-
-    cout << answer;
+    cout << func(0, s.size()-1);
 }
