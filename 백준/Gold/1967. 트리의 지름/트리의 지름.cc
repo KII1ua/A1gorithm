@@ -4,53 +4,55 @@ typedef pair<int, int> pii;
 typedef long long ll;
 #define endl "\n"
 
-int dx[] = {-1, 1, 0, 0};
-int dy[] = {0, 0, -1, 1};
+struct Tree {
+    int Node, left, right;
+};
+
+const int INF = 1e9;
+const int MAX = 100001;
+const int D = 2000000;
+const int MOD = 10007;
+int dx[] = {0, 0, 1, -1};
+int dy[] = {1, -1, 0, 0};
 int N;
-vector<pii> v[10001];
+vector<vector<pii>> v(10001);
+int dp[10001];
 bool visited[10001];
-int result;
-int endpoint;
+int answer;
 
-void dfs(int a, int len) {
-    if(visited[a]) return;
+pii dfs(int node, int par) {
+    pii max_value = {node, 0};
 
-    visited[a] = true;
-    if(result < len) {
-        result = len;
-        endpoint = a;
+    for(auto &iter : v[node]) {
+        int nextnode = iter.first;
+        int nextcost = iter.second;
+
+        if(nextnode == par) continue;
+        pii tmp = dfs(nextnode, node);
+        tmp.second += nextcost;
+
+        if(max_value.second < tmp.second) {
+            max_value = tmp;
+        }
     }
 
-    for(int i = 0; i < v[a].size(); i++) {
-        dfs(v[a][i].first, len + v[a][i].second);
-    }
-}
-
-void input() {
-    cin >> N;
-
-    for(int i = 0; i < N-1; i++) {
-        int a, b, c;
-        cin >> a >> b >> c;
-        v[a].push_back(make_pair(b, c));
-        v[b].push_back(make_pair(a, c));
-    }
-}
-
-void solve() {
-    input();
-    dfs(1, 0);
-
-    memset(visited, 0, sizeof(visited));
-
-    dfs(endpoint, 0);
-
-    cout << result;
+    return max_value;
 }
 
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0), cout.tie(0);
 
-    solve();
+    cin >> N;
+
+    for(int i = 0; i < N-1; i++) {
+        int a, b, c;
+        cin >> a >> b >> c;
+        v[a].push_back({b, c});
+        v[b].push_back({a, c});
+    }
+
+    dfs(1, -1);
+
+    cout << dfs(dfs(1, -1).first, -1).second;
 }
