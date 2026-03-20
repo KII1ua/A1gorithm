@@ -16,28 +16,23 @@ int dx[] = {0, 0, 1, -1};
 int dy[] = {1, -1, 0, 0};
 int N;
 vector<vector<pii>> v(10001);
-int dp[10001];
 bool visited[10001];
-int answer;
+int root, len;
 
-pii dfs(int node, int par) {
-    pii max_value = {node, 0};
+void dfs(int node, int lens) {
+    if(visited[node]) return;
+    visited[node] = true;
 
-    for(auto &iter : v[node]) {
-        int nextnode = iter.first;
-        int nextcost = iter.second;
-
-        if(nextnode == par) continue;
-        pii tmp = dfs(nextnode, node);
-        tmp.second += nextcost;
-
-        if(max_value.second < tmp.second) {
-            max_value = tmp;
-        }
+    if(len < lens) {
+        root = node;
+        len = lens;
     }
 
-    return max_value;
+    for(auto &iter : v[node]) {
+        dfs(iter.first, lens + iter.second);
+    }
 }
+
 
 int main() {
     ios::sync_with_stdio(0);
@@ -52,7 +47,11 @@ int main() {
         v[b].push_back({a, c});
     }
 
-    dfs(1, -1);
+    dfs(1, 0);
 
-    cout << dfs(dfs(1, -1).first, -1).second;
+    memset(visited, 0, sizeof(visited));
+
+    dfs(root, 0);
+
+    cout << len;
 }
