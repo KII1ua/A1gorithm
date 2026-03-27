@@ -1,12 +1,6 @@
 -- 코드를 입력하세요
-
--- 1. 생산일자가 2022년 5월인 식품 ID, 식품 이름, 총매출 조회
--- 2. 총매출을 기준으로 내림차순 정렬, 식품 ID 기준으로 정렬
-
-SELECT a.PRODUCT_ID, a.PRODUCT_NAME, SUM(PRICE * AMOUNT) AS TOTAL_SALES
-FROM FOOD_PRODUCT a
-JOIN FOOD_ORDER b
-ON a.PRODUCT_ID = b.PRODUCT_ID
-WHERE PRODUCE_DATE LIKE '2022-05%'
-GROUP BY a.PRODUCT_ID
-ORDER BY TOTAL_SALES DESC, PRODUCT_ID
+SELECT t1.product_id, t1.product_name, t1.price * t2.amount as total_sales from food_product t1
+join (select product_id, sum(amount) as amount from food_order
+	where year(produce_date) = 2022 and month(produce_date) = 5
+	group by product_id) as t2 on t1.product_id = t2.product_id
+    order by total_sales desc, product_id asc;
